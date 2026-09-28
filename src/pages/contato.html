@@ -1,0 +1,90 @@
+<!--meta {"title": "Contato", "description": "Fale com o Escritório Eficaz: telefones, WhatsApp, e-mails, Instagram, Facebook, endereços e mapas das unidades de Patrocínio e Abadia dos Dourados, MG.", "nav": "contato", "theme": "dark"} -->
+
+<section class="page-hero dark ledger">
+  <div class="wrap">
+    <nav class="crumbs label" aria-label="Você está em"><a href="index.html">Início</a><span>/</span><span>Contato</span></nav>
+    <h1 class="display mega">Fale com <span class="accent">a gente.</span></h1>
+    <div class="page-hero-grid">
+      <div>
+        <p class="label muted" style="margin-bottom:12px">Patrocínio</p>
+        <a class="big-phone" href="tel:+553438399500">(34) 3839-9500</a>
+      </div>
+      <div>
+        <p class="label muted" style="margin-bottom:12px">Abadia dos Dourados</p>
+        <a class="big-phone" style="font-size:clamp(30px,3vw,46px)" href="tel:+553438471550">(34) 3847-1550</a><br>
+        <a class="big-phone" style="font-size:clamp(30px,3vw,46px)" href="tel:+553438471833">(34) 3847-1833</a>
+      </div>
+    </div>
+    <div class="hero-actions" style="margin-top:36px">
+      <a class="btn btn-solid" href="{{WA}}" target="_blank" rel="noopener">{{ICON:whatsapp}} Chamar no WhatsApp</a>
+      <a class="btn btn-ghost" href="mailto:marcio@escritorioeficaz.com.br">{{ICON:mail}} Enviar e-mail</a>
+      <a class="btn btn-ghost" href="#mapas">{{ICON:pin}} Ver no mapa</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label"><b>01</b> / Canais</span>
+      <h2 class="h-light">Escolha o jeito <em>mais fácil</em> para você.</h2>
+    </div>
+    {{CHANNELS}}
+  </div>
+</section>
+
+<section class="section white-bg">
+  <div class="wrap contact-grid">
+    <div>
+      <span class="label accent">02 / Mensagem</span>
+      <h2 class="display lg" style="margin:20px 0 24px">Conte o que <span class="accent">precisa.</span></h2>
+      <p class="muted" style="max-width:40ch">Quanto mais detalhes, mais rápida e precisa é a nossa resposta. Escolha como prefere enviar: por e-mail ou direto no WhatsApp.</p>
+    </div>
+
+    <form class="form" id="contact-form" novalidate>
+      <fieldset class="field" style="border:0;padding:0;margin:0">
+        <legend style="margin-bottom:12px">Assunto</legend>
+        <div class="pills">
+          <input type="radio" name="assunto" id="a1" value="Abrir empresa"><label for="a1">Abrir empresa</label>
+          <input type="radio" name="assunto" id="a2" value="Trocar de contador"><label for="a2">Trocar de contador</label>
+          <input type="radio" name="assunto" id="a3" value="Departamento pessoal"><label for="a3">Departamento pessoal</label>
+          <input type="radio" name="assunto" id="a4" value="Planejamento tributário"><label for="a4">Planejamento tributário</label>
+          <input type="radio" name="assunto" id="a5" value="Caixa Aqui"><label for="a5">Caixa Aqui</label>
+          <input type="radio" name="assunto" id="a6" value="Outro" checked><label for="a6">Outro</label>
+        </div>
+      </fieldset>
+      <div class="row-2">
+        <div class="field"><label for="nome">Nome</label><input id="nome" name="nome" required autocomplete="name"></div>
+        <div class="field"><label for="empresa">Empresa</label><input id="empresa" name="empresa" autocomplete="organization"></div>
+      </div>
+      <div class="row-2">
+        <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" required autocomplete="email"></div>
+        <div class="field"><label for="telefone">Telefone</label><input id="telefone" name="telefone" type="tel" autocomplete="tel" inputmode="tel"></div>
+      </div>
+      <div class="field">
+        <label for="unidade">Unidade</label>
+        <select id="unidade" name="unidade">
+          <option value="patrocinio">Patrocínio</option>
+          <option value="abadia">Abadia dos Dourados</option>
+        </select>
+      </div>
+      <div class="field"><label for="mensagem">Mensagem</label><textarea id="mensagem" name="mensagem" required></textarea></div>
+      <p class="form-note">Ao enviar, você concorda com a nossa <a href="privacidade.html" style="border-bottom:1px solid">política de privacidade</a>. Usamos seus dados apenas para responder ao contato.</p>
+      <div class="form-send">
+        <button class="btn btn-solid" type="submit">{{ICON:mail}} Enviar por e-mail</button>
+        <button class="btn btn-ghost" type="button" id="send-wa" data-wa="{{WA}}">{{ICON:whatsapp}} Enviar pelo WhatsApp</button>
+      </div>
+      <p class="form-status" id="form-status" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<section class="section dark" id="mapas">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label"><b>03</b> / Como chegar</span>
+      <h2 class="h-light">Duas unidades, no <em>centro</em> das duas cidades.</h2>
+    </div>
+    {{MAPS}}
+  </div>
+</section>
