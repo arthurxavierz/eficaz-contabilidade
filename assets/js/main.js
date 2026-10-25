@@ -49,9 +49,9 @@
         if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
       });
     }, { rootMargin: "0px 0px -8% 0px", threshold: .08 });
-    $$(".reveal").forEach(function (el) { io.observe(el); });
+    $$(".reveal, .img-reveal").forEach(function (el) { io.observe(el); });
   } else {
-    $$(".reveal").forEach(function (el) { el.classList.add("in"); });
+    $$(".reveal, .img-reveal").forEach(function (el) { el.classList.add("in"); });
   }
 
   /* ---------- Hero: título letra a letra ---------- */
@@ -77,59 +77,6 @@
       walk(line);
     });
     title.setAttribute("aria-label", "Contabilizando o sucesso");
-  }
-
-  /* ---------- Hero: gráfico de crescimento ---------- */
-  var chartBox = $(".hero-chart");
-  function drawChart() {
-    var W = Math.max(280, Math.round(chartBox.clientWidth)), H = Math.max(170, Math.round(chartBox.clientHeight)), padB = 28, n = 12;
-    var vals = [22, 30, 27, 38, 35, 46, 52, 49, 61, 68, 74, 86];
-    var bw = W / n, gap = bw * .34;
-    var xs = [], ys = [];
-    var svg = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Gráfico ilustrativo de crescimento">' +
-      '<defs><linearGradient id="heroArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2661b" stop-opacity=".28"/><stop offset="1" stop-color="#f2661b" stop-opacity="0"/></linearGradient></defs><g class="chart-grid">';
-    for (var g = 0; g <= 4; g++) { var gy = (H - padB) * g / 4; svg += '<line x1="0" x2="' + W + '" y1="' + gy + '" y2="' + gy + '"/>'; }
-    svg += "</g><g>";
-    var MS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
-    vals.forEach(function (v, k) {
-      var h = (H - padB) * v / 100, x = k * bw + gap / 2, y = H - padB - h;
-      xs.push(x + (bw - gap) / 2); ys.push(y);
-      svg += '<rect class="chart-bar' + (k === n - 1 ? " hi" : "") + '" style="--i:' + k + '" x="' + x + '" y="' + y + '" width="' + (bw - gap) + '" height="' + h + '" rx="2"/>';
-      svg += '<text class="chart-label" x="' + (x + (bw - gap) / 2) + '" y="' + (H - 8) + '" text-anchor="middle">' + MS[k] + "</text>";
-    });
-    svg += "</g>";
-    var d = "M" + xs[0] + " " + (ys[0] - 14);
-    for (var k2 = 1; k2 < n; k2++) {
-      var cx = (xs[k2 - 1] + xs[k2]) / 2;
-      d += " C" + cx + " " + (ys[k2 - 1] - 14) + " " + cx + " " + (ys[k2] - 14) + " " + xs[k2] + " " + (ys[k2] - 14);
-    }
-    var ex = xs[n - 1], ey = ys[n - 1] - 14;
-    svg += '<path class="chart-area" d="' + d + " L" + ex + " " + (H - padB) + " L" + xs[0] + " " + (H - padB) + ' Z"/>';
-    svg += '<path class="chart-line" pathLength="1000" style="--len:1000" d="' + d + '"/>';
-    svg += '<circle class="chart-pulse" cx="' + ex + '" cy="' + ey + '" r="6"/><circle class="chart-dot" cx="' + ex + '" cy="' + ey + '" r="5"/>';
-    svg += '<g class="chart-tag" transform="translate(' + (ex - 132) + " " + (ey - 44) + ')"><rect width="118" height="26" rx="13"/><text x="59" y="17" text-anchor="middle">RESULTADO</text></g>';
-    svg += "</svg>";
-    chartBox.innerHTML = svg;
-    chartBox.setAttribute("data-w", W);
-  }
-  if (chartBox) {
-    drawChart();
-    var rt;
-    window.addEventListener("resize", function () {
-      clearTimeout(rt);
-      rt = setTimeout(function () { if (Math.abs(chartBox.clientWidth - chartBox.getAttribute("data-w")) > 40) drawChart(); }, 250);
-    });
-  }
-
-  /* ---------- Hero: brilho que acompanha o cursor ---------- */
-  var heroEl = $(".hero");
-  var glow = $(".hero-glow");
-  if (heroEl && glow && !reduce && window.matchMedia("(hover: hover)").matches) {
-    heroEl.addEventListener("pointermove", function (e) {
-      var r = heroEl.getBoundingClientRect();
-      glow.style.setProperty("--gx", ((e.clientX - r.left) / r.width * 100) + "%");
-      glow.style.setProperty("--gy", ((e.clientY - r.top) / r.height * 100) + "%");
-    });
   }
 
   /* ---------- Manifesto lido na rolagem ---------- */
@@ -356,6 +303,230 @@
       var txt = "Olá! Sou " + fd.get("nome") + (fd.get("empresa") ? ", da " + fd.get("empresa") : "") + ".\n" +
         "Assunto: " + (fd.get("assunto") || "Outro") + "\n\n" + fd.get("mensagem");
       window.open(waBtn.getAttribute("data-wa").split("?")[0] + "?text=" + encodeURIComponent(txt), "_blank", "noopener");
+    });
+  }
+
+  var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  var small = window.matchMedia("(max-width: 760px)");
+
+  /* ---------- Títulos que sobem palavra a palavra ---------- */
+  var splitEls = $$("[data-split], .sec-head h2.display");
+  splitEls.forEach(function (el) {
+    var w = 0;
+    var walk = function (node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+        if (n.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(" ")); return; }
+            var o = document.createElement("span"); o.className = "wd";
+            var i = document.createElement("span"); i.textContent = part; i.style.setProperty("--w", w++);
+            o.appendChild(i); frag.appendChild(o);
+          });
+          n.parentNode.replaceChild(frag, n);
+        } else if (n.nodeType === 1 && n.tagName !== "BR") walk(n);
+      });
+    };
+    walk(el);
+  });
+  if (splitEls.length) {
+    if (reduce || !("IntersectionObserver" in window)) splitEls.forEach(function (el) { el.classList.add("split-in"); });
+    else {
+      var sio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("split-in"); sio.unobserve(en.target); } });
+      }, { rootMargin: "0px 0px -10% 0px" });
+      splitEls.forEach(function (el) { sio.observe(el); });
+    }
+  }
+
+  /* ---------- Contadores ---------- */
+  var counters = $$("[data-count]");
+  function runCount(el) {
+    var to = parseFloat(el.getAttribute("data-count"));
+    var dec = parseInt(el.getAttribute("data-dec") || "0", 10);
+    var t0 = null, dur = 1800;
+    var fmt = function (v) { return v.toLocaleString("pt-BR", { minimumFractionDigits: dec, maximumFractionDigits: dec }); };
+    if (reduce) { el.textContent = fmt(to); return; }
+    var step = function (ts) {
+      if (!t0) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur);
+      el.textContent = fmt(to * (1 - Math.pow(1 - p, 4)));
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  if (counters.length && "IntersectionObserver" in window) {
+    var cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { runCount(en.target); cio.unobserve(en.target); } });
+    }, { threshold: .4 });
+    counters.forEach(function (c) { cio.observe(c); });
+  }
+
+  /* ---------- Vídeo do hero ---------- */
+  var heroVid = $(".hero-media video");
+  if (heroVid) {
+    var pickSrc = function () { return small.matches ? heroVid.getAttribute("data-mobile") : heroVid.getAttribute("data-desktop"); };
+    if (!reduce) {
+      heroVid.src = pickSrc();
+      heroVid.play().catch(function () {});
+    }
+  }
+
+  /* ---------- Movimento ligado à rolagem ---------- */
+  var heroEl = $(".hero");
+  var parallax = $$("[data-parallax]");
+  var stackCards = $$(".stack-card");
+  var ticking = false;
+  function onFrame() {
+    ticking = false;
+    var vh = window.innerHeight;
+    if (heroEl && heroVid) {
+      var y = Math.min(window.scrollY, vh);
+      heroEl.style.setProperty("--hs", (1.06 + y / vh * .12).toFixed(4));
+      heroEl.style.setProperty("--hy", (y * .25).toFixed(1) + "px");
+    }
+    parallax.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.bottom < -100 || r.top > vh + 100) return;
+      var c = (r.top + r.height / 2 - vh / 2) / vh;
+      el.style.setProperty("--py", (c * -parseFloat(el.getAttribute("data-parallax") || "60")).toFixed(1) + "px");
+    });
+    for (var i = 0; i < stackCards.length - 1; i++) {
+      var next = stackCards[i + 1].getBoundingClientRect();
+      var cur = stackCards[i].getBoundingClientRect();
+      var p = Math.max(0, Math.min(1, (cur.bottom - next.top) / cur.height));
+      stackCards[i].style.setProperty("--sc", (1 - p * .06).toFixed(4));
+    }
+  }
+  function requestFrame() { if (!ticking) { ticking = true; requestAnimationFrame(onFrame); } }
+  if (!reduce && (heroEl || parallax.length || stackCards.length)) {
+    window.addEventListener("scroll", requestFrame, { passive: true });
+    window.addEventListener("resize", requestFrame);
+    onFrame();
+  }
+
+  /* ---------- Nota fiscal sendo conferida ---------- */
+  var receipt = $(".receipt");
+  if (receipt) {
+    var DOCS = [
+      { head: "NF-e 001.284", kind: "Nota fiscal de serviço", items: [["Honorários contábeis", 1850], ["Escrita fiscal", 640], ["Folha de pagamento", 920], ["ISS retido", -92.5]] },
+      { head: "FOLHA 10/2026", kind: "Folha de pagamento", items: [["Salários", 18400], ["FGTS Digital", 1472], ["INSS patronal", 3680], ["Vale transporte", 610]] },
+      { head: "DAS 10/2026", kind: "Simples Nacional", items: [["Receita do mês", 48200], ["Anexo III", 0], ["Alíquota efetiva", 0], ["Guia conferida", 2892]] }
+    ];
+    var kindEl = $(".receipt-kind", receipt), headEl = $(".receipt-head b", receipt), list = $(".r-lines", receipt);
+    var totalEl = $(".r-total strong", receipt), bar = $(".r-bar", receipt), stamp = $(".stamp", receipt);
+    var money = function (v) { return "R$ " + v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+    var di = 0, timers = [];
+    var later = function (fn, ms) { timers.push(setTimeout(fn, ms)); };
+    var cycle = function () {
+      var d = DOCS[di++ % DOCS.length];
+      stamp.classList.remove("on");
+      headEl.textContent = d.head; kindEl.textContent = d.kind;
+      list.innerHTML = d.items.map(function (it) {
+        var val = it[1] === 0 ? (it[0] === "Anexo III" ? "serviços" : "6,00%") : money(it[1]);
+        return "<li><i>" + it[0] + "</i><span>" + val + "</span></li>";
+      }).join("");
+      totalEl.textContent = money(0); bar.style.setProperty("--p", "0%");
+      var total = d.items[d.items.length - 1][0] === "Guia conferida" ? d.items[3][1] : d.items.reduce(function (a, b) { return a + b[1]; }, 0);
+      $$("li", list).forEach(function (li, k) {
+        later(function () { li.classList.add("on"); bar.style.setProperty("--p", ((k + 1) / d.items.length * 100) + "%"); }, 500 + k * 520);
+      });
+      later(function () {
+        var t0 = null;
+        var tick = function (ts) {
+          if (!t0) t0 = ts;
+          var p = Math.min(1, (ts - t0) / 900);
+          totalEl.textContent = money(total * (1 - Math.pow(1 - p, 3)));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }, 500 + d.items.length * 520);
+      later(function () { stamp.classList.add("on"); }, 1700 + d.items.length * 520);
+      later(cycle, 6200 + d.items.length * 520);
+    };
+    if (reduce) { cycle(); timers.forEach(clearTimeout); $$("li", list).forEach(function (li) { li.classList.add("on"); }); stamp.classList.add("on"); }
+    else setTimeout(cycle, document.documentElement.classList.contains("intro") ? 2600 : 1500);
+  }
+
+  /* ---------- Vídeos verticais e modal ---------- */
+  var modal = $("#vmodal");
+  var mVideo = modal ? $("video", modal) : null;
+  var lastFocus = null;
+  function openVideo(src, title, link) {
+    if (!modal) return;
+    lastFocus = document.activeElement;
+    mVideo.src = src;
+    $(".vmodal-title", modal).textContent = title || "";
+    if (link) $(".vmodal-link", modal).href = link;
+    modal.setAttribute("aria-hidden", "false"); modal.removeAttribute("inert");
+    document.body.classList.add("modal-open");
+    mVideo.play().catch(function () {});
+    $(".vmodal-close", modal).focus();
+  }
+  function closeVideo() {
+    if (!modal || modal.getAttribute("aria-hidden") === "true") return;
+    mVideo.pause(); mVideo.removeAttribute("src"); mVideo.load();
+    modal.setAttribute("aria-hidden", "true"); modal.setAttribute("inert", "");
+    document.body.classList.remove("modal-open");
+    if (lastFocus) lastFocus.focus();
+  }
+  if (modal) {
+    $(".vmodal-close", modal).addEventListener("click", closeVideo);
+    modal.addEventListener("click", function (e) { if (e.target === modal) closeVideo(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeVideo(); });
+  }
+  $$("[data-video]").forEach(function (b) {
+    b.addEventListener("click", function () { openVideo(b.getAttribute("data-video"), b.getAttribute("data-title"), b.getAttribute("data-link")); });
+  });
+  var reels = $$(".reel");
+  function startPrev(r) {
+    var v = $("video", r);
+    if (!v) return;
+    if (!v.src) v.src = v.getAttribute("data-src");
+    v.play().then(function () { r.classList.add("playing"); }).catch(function () {});
+  }
+  function stopPrev(r) { var v = $("video", r); if (v) { v.pause(); r.classList.remove("playing"); } }
+  if (!reduce) {
+    if (fine) reels.forEach(function (r) {
+      r.addEventListener("mouseenter", function () { startPrev(r); });
+      r.addEventListener("mouseleave", function () { stopPrev(r); });
+    });
+    else if ("IntersectionObserver" in window) {
+      var rio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.intersectionRatio > .7) startPrev(en.target); else stopPrev(en.target); });
+      }, { threshold: [0, .7] });
+      reels.forEach(function (r) { rio.observe(r); });
+    }
+  }
+  $$(".autoplay").forEach(function (v) {
+    if (reduce) return;
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { if (!v.src) v.src = v.getAttribute("data-src"); v.play().catch(function () {}); } else v.pause();
+        });
+      }).observe(v);
+    }
+  });
+
+  /* ---------- Avaliações em faixa contínua ---------- */
+  $$(".review-marquee .reviews").forEach(function (track) {
+    Array.prototype.slice.call(track.children).forEach(function (c) {
+      var k = c.cloneNode(true); k.setAttribute("aria-hidden", "true"); k.classList.add("in"); track.appendChild(k);
+    });
+    $$(".reveal", track).forEach(function (c) { c.classList.add("in"); });
+  });
+
+  /* ---------- Botões magnéticos ---------- */
+  if (fine && !reduce) {
+    $$(".magnetic").forEach(function (b) {
+      b.addEventListener("pointermove", function (e) {
+        var r = b.getBoundingClientRect();
+        b.style.setProperty("--mx", ((e.clientX - r.left - r.width / 2) * .25).toFixed(1) + "px");
+        b.style.setProperty("--my", ((e.clientY - r.top - r.height / 2) * .35).toFixed(1) + "px");
+      });
+      b.addEventListener("pointerleave", function () { b.style.setProperty("--mx", "0px"); b.style.setProperty("--my", "0px"); });
     });
   }
 
