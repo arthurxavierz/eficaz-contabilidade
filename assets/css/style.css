@@ -1117,3 +1117,4 @@ html.intro .curtain {
   .nav .nav-login .t { display: none; }
   .nav .nav-login { padding: 9px; }
 }
+.section.follow { padding-top: clamp(8px, 1.5vw, 24px); }

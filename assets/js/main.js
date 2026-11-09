@@ -109,51 +109,6 @@
     else { window.addEventListener("scroll", paint, { passive: true }); window.addEventListener("resize", paint); paint(); }
   }
 
-  /* ---------- Próximo vencimento (hero da home) ---------- */
-  var MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
-  var MES_C = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
-  var SEMANA = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
-  var OBRIGACOES = [
-    { dia: "util5", titulo: "Pagamento de salários", quem: "Até o quinto dia útil, para quem tem funcionários" },
-    { dia: 15, titulo: "eSocial e DCTFWeb", quem: "Envio dos eventos da folha do mês anterior" },
-    { dia: 20, titulo: "DAS do Simples Nacional", quem: "Empresas optantes e MEI" },
-    { dia: 20, titulo: "FGTS Digital", quem: "Depósito mensal dos empregados" },
-    { dia: 20, titulo: "INSS e IRRF sobre a folha", quem: "Guia única gerada pela DCTFWeb" },
-    { dia: 25, titulo: "PIS e COFINS", quem: "Empresas do Lucro Presumido e do Lucro Real" },
-    { dia: "ultimo", titulo: "IRPJ e CSLL", quem: "Estimativa mensal ou quota trimestral" }
-  ];
-  function dataDe(ano, mes, regra) {
-    if (regra === "ultimo") {
-      var d = new Date(ano, mes + 1, 0);
-      while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() - 1);
-      return d;
-    }
-    if (regra === "util5") {
-      var n = 0, dd = new Date(ano, mes, 1);
-      for (;;) { if (dd.getDay() !== 0) { n++; if (n === 5) return dd; } dd.setDate(dd.getDate() + 1); }
-    }
-    return new Date(ano, mes, regra);
-  }
-  function proximas(hoje) {
-    var lista = [];
-    OBRIGACOES.forEach(function (o) {
-      var d = dataDe(hoje.getFullYear(), hoje.getMonth(), o.dia);
-      if (d < hoje) d = dataDe(hoje.getFullYear(), hoje.getMonth() + 1, o.dia);
-      lista.push({ o: o, d: d, faltam: Math.round((d - hoje) / 864e5) });
-    });
-    return lista.sort(function (a, b) { return a.d - b.d; });
-  }
-  var hoje = new Date(); hoje.setHours(0, 0, 0, 0);
-  var prox = proximas(hoje);
-  function faltamTxt(n) { return n === 0 ? "hoje" : n === 1 ? "amanhã" : "em " + n + " dias"; }
-
-  var nd = $("#next-due");
-  if (nd) {
-    var f = prox[0];
-    nd.innerHTML = '<span class="n">' + String(f.d.getDate()).padStart(2, "0") + "." + String(f.d.getMonth() + 1).padStart(2, "0") + "</span>" +
-      '<span class="t"><small>Próximo vencimento, ' + faltamTxt(f.faltam) + "</small>" + f.o.titulo + "</span>";
-  }
-
   /* ---------- Seletor "qual é o seu momento" ---------- */
   var chips = $$(".chip");
   var out = $("#chooser-out");

@@ -3,7 +3,7 @@
 Site estático, sem dependências. Abra `index.html` no navegador ou publique a pasta inteira em qualquer hospedagem.
 
 ## Páginas
-- `index.html` início: hero com vídeo e próximo vencimento, quem somos com fotos reais, seis cards de serviço (o último é "Muito mais"), vídeos, avaliações, além da contabilidade (BDMG, OAB, perícia), mapas. No celular, textos extras e a faixa de foto somem (classe `desk-only`)
+- `index.html` início: hero com vídeo, quem somos com fotos reais, seis cards de serviço (o último é "Muito mais"), vídeos, avaliações, além da contabilidade (BDMG, OAB, perícia), mapas. No celular, textos extras e a faixa de foto somem (classe `desk-only`)
 - `sobre.html` história em três capítulos com fotos do acervo (assets/img/historia, vindas do protótipo do Márcio), números, foto da equipe, missão/visão/compromisso, responsáveis
 - `servicos.html` cinco frentes de serviço com fotos, parcerias e passo a passo de abertura
 - `depoimentos.html` avaliações públicas do Google (nota 5,0 em 32 avaliações)
@@ -28,5 +28,5 @@ O script recusa textos com travessão. Ao mudar CSS ou JS, aumente `V` em `src/b
 ## Pendências
 - Avaliações: o Google mostra só 3 completas sem login. Para incluir mais, copie de https://www.google.com/maps (ficha do escritório) para REVIEWS.
 - Formulário abre o e-mail do visitante (mailto) ou o WhatsApp com a mensagem pronta.
-- A seção de agenda saiu da home; o hero ainda mostra o próximo vencimento (calculado no navegador) e leva para Links úteis.
+- A agenda tributária saiu do site; o link atualizado fica em Links úteis (Ondatta).
 - Botão "Acessar sistema" no topo: troque `EMPRESA["sistema"]` em `src/build.py` pelo link do sistema interno (hoje está "#").
