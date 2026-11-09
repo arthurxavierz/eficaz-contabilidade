@@ -10,7 +10,6 @@ Marcadores disponíveis dentro das páginas:
   {{MAPS}}              os dois mapas com botões de rota
   {{CHANNELS}}          grade completa de canais de contato
   {{REELS}}             vídeos do Instagram em formato vertical
-  {{IGFEED}}            grade de posts do Instagram
   {{REVIEWS}}           avaliações do Google em cartões
   {{QUOTES}}            trechos destacados das avaliações
   {{STARS}}             cinco estrelas
@@ -26,7 +25,7 @@ import re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PAGES = ROOT / "src" / "pages"
 SITE = "https://escritorioeficaz.com.br"
-V = "3"  # versão dos arquivos estáticos; aumente a cada publicação de CSS ou JS
+V = "5"  # versão dos arquivos estáticos; aumente a cada publicação de CSS ou JS
 
 # ------------------------------------------------------------------
 # Dados do escritório. Altere aqui e rode o build de novo.
@@ -44,6 +43,8 @@ EMPRESA = {
     "google": "https://www.google.com/maps/place/Escrit%C3%B3rio+de+Contabilidade+Eficaz/@-18.9405656,-46.9908627,17z/data=!4m6!3m5!1s0x94ae52b59cbed981:0x45373380555af89d!8m2!3d-18.9405656!4d-46.9908627!16s%2Fg%2F1pv17jwxx",
     "nota": "5,0",
     "avaliacoes": 32,
+    # Endereço do sistema interno (login). Troque quando o escritório passar o link.
+    "sistema": "#",
 }
 
 UNIDADES = [
@@ -62,12 +63,13 @@ UNIDADES = [
         "slug": "abadia",
         "tipo": "Unidade",
         "nome": "Abadia dos Dourados",
-        "rua": "Rua Tiradentes, 250, Centro",
+        "rua": "Av. Benedito Teodoro da Silva, 459, Centro",
         "cidade": "Abadia dos Dourados, MG",
         "cep": "38540-000",
-        "fones": [("(34) 3847-1550", "+553438471550"), ("(34) 3847-1833", "+553438471833")],
+        "fones": [("(34) 98818-1551", "+5534988181551")],
+        "whatsapp": "5534988181551",
         "email": "solimar@escritorioeficaz.com.br",
-        "q": "Rua Tiradentes, 250, Centro, Abadia dos Dourados, MG, 38540-000",
+        "q": "Av. Benedito Teodoro da Silva, 459, Centro, Abadia dos Dourados, MG, 38540-000",
     },
 ]
 
@@ -79,16 +81,6 @@ REELS = [
     {"n": 2, "tag": "Bastidores", "titulo": "Entre reuniões, cafés e números", "texto": "Uma equipe unida em que cada detalhe importa.", "url": "https://www.instagram.com/escritorioeficaz/reel/DRNBpSAkRh9/"},
     {"n": 3, "tag": "Quem somos", "titulo": "Uma equipe que cuida de tudo", "texto": "Contabilidade, folha, consultoria e regularização em um só lugar.", "url": "https://www.instagram.com/escritorioeficaz/reel/DVrcRqjj6HX/"},
     {"n": 4, "tag": "Dica", "titulo": "Conta pessoal não é conta da empresa", "texto": "Separar as contas é o primeiro passo para ter controle de verdade.", "url": "https://www.instagram.com/escritorioeficaz/reel/Dd7I-wdP2mv/"},
-]
-
-# Posts recentes do Instagram (assets/img/ig/*.jpg)
-IG_POSTS = [
-    ("escala-6x1", "Fim da escala 6x1: o que muda na sua empresa", "https://www.instagram.com/escritorioeficaz/p/DexATG5h2jA/"),
-    ("custo-funcionario", "Salário de R$ 2.000 não significa custo de R$ 2.000", "https://www.instagram.com/escritorioeficaz/p/De0DeSrPGl-/"),
-    ("profissional-liberal", "Profissional liberal ainda recebendo como pessoa física?", "https://www.instagram.com/escritorioeficaz/p/DekL8Z-B97a/"),
-    ("creditos-ibs-cbs", "Créditos de IBS e CBS na Reforma Tributária", "https://www.instagram.com/escritorioeficaz/p/Debn4mGER1g/"),
-    ("pro-labore", "O caixa da empresa não é o seu salário", "https://www.instagram.com/escritorioeficaz/p/DePgGtlx0GB/"),
-    ("extrato", "Aquele lançamento estranho no extrato da empresa", "https://www.instagram.com/escritorioeficaz/p/DeCNS2AxpaU/"),
 ]
 
 # Avaliações públicas na ficha do Google
@@ -109,7 +101,6 @@ NAV = [
     ("sobre", "Sobre", "sobre.html", True),
     ("servicos", "Serviços", "servicos.html", True),
     ("depoimentos", "Depoimentos", "depoimentos.html", True),
-    ("caixa", "Caixa Aqui", "correspondente-caixa.html", True),
     ("links", "Links úteis", "links-uteis.html", True),
     ("contato", "Contato", "contato.html", False),
 ]
@@ -130,6 +121,7 @@ ICONS = {
     "star": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.8 2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z" fill="currentColor"/></svg>',
     "google": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z"/><path fill="#FBBC05" d="M6.4 14c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2V7.4H3.1a10 10 0 0 0 0 9.2z"/><path fill="#EA4335" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 3.1 7.4L6.4 10C7.2 7.7 9.4 6 12 6z"/></svg>',
     "camera": f'<svg {_S}><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/></svg>',
+    "lock": f'<svg {_S}><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>',
     "close": f'<svg {_S.replace("1.6", "2")}><path d="M6 6l12 12M18 6 6 18"/></svg>',
     "sound": f'<svg {_S}><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
 }
@@ -175,8 +167,8 @@ def route_link(u):
     return f"https://www.google.com/maps/dir/?api=1&amp;destination={enc(u['q'])}"
 
 
-def wa_link(msg="Olá! Vim pelo site do Escritório Eficaz."):
-    return f"https://wa.me/{EMPRESA['whatsapp']}?text={enc(msg)}"
+def wa_link(msg="Olá! Vim pelo site do Escritório Eficaz.", numero=None):
+    return f"https://wa.me/{numero or EMPRESA['whatsapp']}?text={enc(msg)}"
 
 
 def fones_html(u, sep="<br>"):
@@ -211,8 +203,8 @@ def channels_block():
     p, a = UNIDADES
     items = [
         ("phone", "Telefone Patrocínio", fones_html(p), "Matriz"),
-        ("phone", "Telefones Abadia dos Dourados", fones_html(a), "Unidade"),
-        ("whatsapp", "WhatsApp", f'<a href="{wa_link()}" target="_blank" rel="noopener">{EMPRESA["whatsapp_label"]}</a>', "Resposta em horário de atendimento"),
+        ("phone", "Telefone Abadia dos Dourados", fones_html(a), "Unidade"),
+        ("whatsapp", "WhatsApp", f'<a href="{wa_link()}" target="_blank" rel="noopener">Patrocínio {EMPRESA["whatsapp_label"]}</a><br><a href="{wa_link("Olá! Vim pelo site do Escritório Eficaz e gostaria de atendimento na unidade de Abadia dos Dourados.", a["whatsapp"])}" target="_blank" rel="noopener">Abadia {a["fones"][0][0]}</a>', "Um número por unidade"),
         ("mail", "E-mails", "<br>".join(f'<a href="mailto:{r}@escritorioeficaz.com.br">{r}@escritorioeficaz.com.br</a>' for r in RESPONSAVEIS), "Responsáveis"),
         ("instagram", "Instagram", f'<a href="{EMPRESA["instagram"]}" target="_blank" rel="noopener">{EMPRESA["instagram_user"]}</a>', "Dicas e avisos"),
         ("facebook", "Facebook", f'<a href="{EMPRESA["facebook"]}" target="_blank" rel="noopener">/EscritorioEficaz</a>', "Página oficial"),
@@ -243,16 +235,6 @@ def reels_block():
         </span>
       </button>""")
     return '<div class="reels">\n      ' + "\n      ".join(cards) + "\n    </div>"
-
-
-def igfeed_block():
-    cells = []
-    for k, (img, alt, url) in enumerate(IG_POSTS):
-        cells.append(f"""<a class="ig-post reveal reveal-d{k % 3}" href="{url}" target="_blank" rel="noopener">
-        <img src="assets/img/ig/{img}.jpg" alt="{alt}" loading="lazy" width="640" height="800">
-        <span class="ig-over"><span>{ICONS['instagram']}</span><strong>{alt}</strong></span>
-      </a>""")
-    return '<div class="ig-grid">\n      ' + "\n      ".join(cells) + "\n    </div>"
 
 
 def reviews_block():
@@ -295,6 +277,7 @@ def header(current, theme):
     <a class="brand" href="index.html" aria-label="Escritório Eficaz, página inicial">{BRAND}</a>
     <nav class="nav" aria-label="Principal">
       {links}
+      <a class="btn btn-ghost btn-sm nav-login" href="{EMPRESA['sistema']}" target="_blank" rel="noopener" aria-label="Acessar o sistema do Escritório Eficaz">{ICONS['lock']}<span class="t">Acessar sistema</span></a>
       <a class="btn btn-solid btn-sm magnetic" href="contato.html">Fale conosco {ARROW}</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu"><span class="t">Menu</span><span class="bars"></span></button>
     </nav>
@@ -304,9 +287,10 @@ def header(current, theme):
   <ol>{over}</ol>
   <div class="overlay-foot">
     <a href="tel:+553438399500">{ICONS['phone']} Patrocínio (34) 3839-9500</a>
-    <a href="tel:+553438471550">{ICONS['phone']} Abadia (34) 3847-1550</a>
+    <a href="tel:+5534988181551">{ICONS['phone']} Abadia (34) 98818-1551</a>
     <a href="{wa_link()}" target="_blank" rel="noopener">{ICONS['whatsapp']} WhatsApp</a>
     <a href="{EMPRESA['instagram']}" target="_blank" rel="noopener">{ICONS['instagram']} Instagram</a>
+    <a class="login-m" href="{EMPRESA['sistema']}" target="_blank" rel="noopener">{ICONS['lock']} Acessar sistema</a>
   </div>
 </div>
 """
@@ -353,7 +337,7 @@ def footer():
           <li><a href="servicos.html#pessoal">Departamento pessoal</a></li>
           <li><a href="servicos.html#contabil">Contabilidade e perícia</a></li>
           <li><a href="servicos.html#tributario">Planejamento tributário</a></li>
-          <li><a href="servicos.html#parcerias">Crédito e benefícios</a></li>
+          <li><a href="servicos.html#parcerias">Crédito BDMG e parcerias</a></li>
         </ul>
       </div>
       <div>
@@ -380,9 +364,9 @@ def footer():
           <li>{EMPRESA['horario']}</li>
           <li><a href="{wa_link()}" target="_blank" rel="noopener">WhatsApp {EMPRESA['whatsapp_label']}</a></li>
           <li class="creds-title">Credenciais</li>
-          <li class="cred">Correspondente Caixa Aqui</li>
+          <li class="cred">Parceria OAB Patrocínio</li>
           <li class="cred">Credenciado BDMG</li>
-          <li class="cred">Credenciado Pluxee</li>
+          <li class="cred">Perícia e auditoria contábil</li>
         </ul>
       </div>
     </div>
@@ -469,7 +453,6 @@ def render(body):
     body = body.replace("{{MAPS}}", maps_block())
     body = body.replace("{{CHANNELS}}", channels_block())
     body = body.replace("{{REELS}}", reels_block())
-    body = body.replace("{{IGFEED}}", igfeed_block())
     body = body.replace("{{REVIEWS}}", reviews_block())
     body = body.replace("{{QUOTES}}", quotes_block())
     body = body.replace("{{STARS}}", stars())

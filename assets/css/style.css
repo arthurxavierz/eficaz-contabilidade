@@ -1062,3 +1062,58 @@ html.intro .curtain {
 .dark .ph-photo { border-color: rgba(243,240,232,.25); color: var(--muted-inv); background: repeating-linear-gradient(135deg, rgba(243,240,232,.04) 0 12px, transparent 12px 24px), var(--ink-2); }
 .dark .ph-photo strong { color: var(--paper); }
 @media (max-width: 760px) { .brand-logo { height: 40px; } .ph-photo small { display: none; } }
+
+/* ---------- História com fotos do acervo (página Sobre) ---------- */
+.chapters { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(48px, 7vw, 110px); }
+.chapter { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 80px); align-items: center; }
+.chapter:nth-child(even) { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.chapter:nth-child(even) .chapter-text { order: 2; }
+.chapter-text { border-top: 1px solid var(--line-strong); padding-top: 22px; }
+.chapter-n { display: block; font-family: var(--sans); font-weight: 200; font-size: clamp(64px, 8vw, 120px); line-height: .8; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 1.2px var(--line-strong); margin-bottom: 18px; }
+.chapter-text h3 { font-weight: 400; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.08; letter-spacing: -.03em; margin: 10px 0 14px; }
+.chapter-text p { color: var(--muted); font-size: clamp(16px, 1.2vw, 18px); line-height: 1.65; margin: 0; max-width: 46ch; }
+.chapter-photos { display: grid; gap: 12px; }
+.chapter-photos.two { grid-template-columns: 1fr 1fr; }
+.chapter-photos.two .img-reveal { aspect-ratio: 4 / 3.6; }
+.chapter-photos .img-reveal, .team-wide { border-radius: 20px; }
+.team-wide { aspect-ratio: 913 / 610; max-height: 78vh; width: 100%; }
+.vm.three { grid-template-columns: repeat(3, 1fr); }
+.vm.three h3 { font-size: clamp(40px, 4.6vw, 72px); }
+@media (max-width: 1080px) {
+  .vm.three { grid-template-columns: 1fr; }
+  .vm.three article + article { border-left: 0; padding-left: 0; border-top: 1px solid var(--line-inv); margin-top: 12px; }
+}
+@media (max-width: 760px) {
+  .chapter, .chapter:nth-child(even) { grid-template-columns: 1fr; }
+  .chapter:nth-child(even) .chapter-text { order: 0; }
+  .chapter-photos.two { grid-template-columns: 1fr; }
+  .chapter-photos.two .img-reveal { aspect-ratio: 4 / 3; }
+}
+.link-card .tag { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--orange); color: var(--white); font-weight: 500; letter-spacing: .06em; vertical-align: 1px; }
+.chapter-text .year { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--orange); }
+
+/* ---------- Home v4: fotos reais, sexto serviço, mobile mais direto ---------- */
+.photo-row.real { grid-template-columns: 1.35fr .75fr 1fr; }
+.photo-row.real .img-reveal:nth-child(1) { aspect-ratio: 913 / 610; }
+.photo-row.real .img-reveal:nth-child(2) { aspect-ratio: 3 / 4; }
+.photo-row.real .img-reveal:nth-child(3) { aspect-ratio: 1000 / 667; }
+.stack-card:nth-child(6) { background: var(--ink); color: var(--paper); }
+.stack-card:nth-child(6) .go span svg { color: var(--ink); }
+.nav-login { gap: 8px; }
+.nav-login svg { width: 15px; height: 15px; }
+.overlay-foot .login-m { color: var(--orange); }
+@media (max-width: 1080px) {
+  .nav .nav-login { display: inline-flex; padding: 8px 14px; font-size: 13px; }
+}
+@media (max-width: 760px) {
+  .desk-only { display: none !important; }
+  .manifesto .big { font-size: clamp(22px, 6.4vw, 30px); }
+  .photo-row.real { grid-template-columns: 1fr; margin-top: 32px; }
+  .photo-row.real .img-reveal:nth-child(n+2) { display: none; }
+  .manifesto-foot { margin-top: 24px; gap: 16px; }
+  .stack-media { height: 160px; }
+  .stack-body p { font-size: 15px; }
+  .partner ul li:nth-child(n+2) { display: none; }
+  .nav .nav-login .t { display: none; }
+  .nav .nav-login { padding: 9px; }
+}

@@ -109,7 +109,7 @@
     else { window.addEventListener("scroll", paint, { passive: true }); window.addEventListener("resize", paint); paint(); }
   }
 
-  /* ---------- Agenda de vencimentos ---------- */
+  /* ---------- Próximo vencimento (hero da home) ---------- */
   var MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
   var MES_C = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
   var SEMANA = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
@@ -152,39 +152,6 @@
     var f = prox[0];
     nd.innerHTML = '<span class="n">' + String(f.d.getDate()).padStart(2, "0") + "." + String(f.d.getMonth() + 1).padStart(2, "0") + "</span>" +
       '<span class="t"><small>Próximo vencimento, ' + faltamTxt(f.faltam) + "</small>" + f.o.titulo + "</span>";
-  }
-
-  var agenda = $("#agenda");
-  if (agenda) {
-    var first = prox[0];
-    $("#agenda-count").innerHTML = (first.faltam === 0 ? "0" : first.faltam) +
-      "<small>" + (first.faltam === 1 ? "dia" : "dias") + "<br>para o<br>próximo prazo</small>";
-    $("#agenda-title").textContent = first.o.titulo;
-    $("#agenda-sub").textContent = first.o.quem + ". Vence em " + first.d.getDate() + " de " + MESES[first.d.getMonth()] + ".";
-    var ul = $("#due-list");
-    ul.innerHTML = prox.map(function (it) {
-      return '<li class="' + (it.faltam <= 5 ? "soon" : "") + '"><span class="d">' + String(it.d.getDate()).padStart(2, "0") +
-        "<small>" + MES_C[it.d.getMonth()] + " · " + SEMANA[it.d.getDay()] + "</small></span>" +
-        "<span><strong>" + it.o.titulo + '</strong><span class="who">' + it.o.quem + "</span></span>" +
-        '<span class="left">' + faltamTxt(it.faltam) + "</span></li>";
-    }).join("");
-    var strip = $("#month-strip");
-    if (strip) {
-      var y = hoje.getFullYear(), m = hoje.getMonth();
-      var dias = {};
-      OBRIGACOES.forEach(function (o) { dias[dataDe(y, m, o.dia).getDate()] = true; });
-      var h = SEMANA.map(function (s) { return '<span class="h">' + s.charAt(0).toUpperCase() + "</span>"; }).join("");
-      var start = new Date(y, m, 1).getDay();
-      for (var e = 0; e < start; e++) h += "<span></span>";
-      var total = new Date(y, m + 1, 0).getDate();
-      for (var dd = 1; dd <= total; dd++) {
-        var wd = new Date(y, m, dd).getDay();
-        var cls = "c" + (wd === 0 || wd === 6 ? " we" : "") + (dias[dd] ? " due" : "") + (dd === hoje.getDate() ? " today" : "") + (dd < hoje.getDate() ? " past" : "");
-        h += '<span class="' + cls + '">' + dd + "</span>";
-      }
-      strip.innerHTML = h;
-      var cap = $("#month-name"); if (cap) cap.textContent = MESES[m] + " de " + y;
-    }
   }
 
   /* ---------- Seletor "qual é o seu momento" ---------- */
