@@ -43,8 +43,9 @@ EMPRESA = {
     "google": "https://www.google.com/maps/place/Escrit%C3%B3rio+de+Contabilidade+Eficaz/@-18.9405656,-46.9908627,17z/data=!4m6!3m5!1s0x94ae52b59cbed981:0x45373380555af89d!8m2!3d-18.9405656!4d-46.9908627!16s%2Fg%2F1pv17jwxx",
     "nota": "5,0",
     "avaliacoes": 32,
-    # Endereço do sistema interno (login). Troque quando o escritório passar o link.
-    "sistema": "#",
+    # Portal do Cliente Onvio (Thomson Reuters), onde o cliente acessa documentos e guias.
+    # Usar este endereço fixo: o link copiado da tela de login traz um token que expira.
+    "sistema": "https://onvio.com.br/clientcenter/",
 }
 
 UNIDADES = [
@@ -277,7 +278,7 @@ def header(current, theme):
     <a class="brand" href="index.html" aria-label="Escritório Eficaz, página inicial">{BRAND}</a>
     <nav class="nav" aria-label="Principal">
       {links}
-      <a class="btn btn-ghost btn-sm nav-login" href="{EMPRESA['sistema']}" target="_blank" rel="noopener" aria-label="Acessar o sistema do Escritório Eficaz">{ICONS['lock']}<span class="t">Acessar sistema</span></a>
+      <a class="btn btn-ghost btn-sm nav-login" href="{EMPRESA['sistema']}" target="_blank" rel="noopener" aria-label="Acessar o Portal do Cliente do Escritório Eficaz (Onvio)" title="Portal do Cliente: documentos, guias e serviços">{ICONS['lock']}<span class="t">Acessar sistema</span></a>
       <a class="btn btn-solid btn-sm magnetic" href="contato.html">Fale conosco {ARROW}</a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu"><span class="t">Menu</span><span class="bars"></span></button>
     </nav>

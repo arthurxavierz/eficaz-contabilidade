@@ -29,4 +29,4 @@ O script recusa textos com travessão. Ao mudar CSS ou JS, aumente `V` em `src/b
 - Avaliações: o Google mostra só 3 completas sem login. Para incluir mais, copie de https://www.google.com/maps (ficha do escritório) para REVIEWS.
 - Formulário abre o e-mail do visitante (mailto) ou o WhatsApp com a mensagem pronta.
 - A agenda tributária saiu do site; o link atualizado fica em Links úteis (Ondatta).
-- Botão "Acessar sistema" no topo: troque `EMPRESA["sistema"]` em `src/build.py` pelo link do sistema interno (hoje está "#").
+- Botão "Acessar sistema" no topo: leva ao Portal do Cliente Onvio (Thomson Reuters), `EMPRESA["sistema"]` em `src/build.py`. Use `https://onvio.com.br/clientcenter/`, nunca o link da tela de login (tem token que expira).
