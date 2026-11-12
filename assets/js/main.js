@@ -452,6 +452,88 @@
     });
   }
 
+  /* ---------- Álbum do arquivo: no desktop a faixa anda para o lado com a rolagem ---------- */
+  var album = $(".album");
+  if (album && !reduce) {
+    var aTrack = $(".album-track", album), aBg = $(".album-bg", album);
+    var aWide = window.matchMedia("(min-width: 900px)"), aDist = 0;
+    var moveAlbum = function () {
+      if (!album.classList.contains("is-pinned")) return;
+      var r = album.getBoundingClientRect(), span = r.height - window.innerHeight;
+      var p = span > 0 ? Math.max(0, Math.min(1, -r.top / span)) : 0;
+      aTrack.style.setProperty("--ax", (-p * aDist).toFixed(1) + "px");
+      if (aBg) aBg.style.setProperty("--ax", (-p * aDist * .3).toFixed(1) + "px");
+    };
+    var sizeAlbum = function () {
+      if (!aWide.matches) { album.classList.remove("is-pinned"); album.style.height = ""; aTrack.style.removeProperty("--ax"); return; }
+      album.classList.add("is-pinned");
+      aDist = Math.max(0, aTrack.scrollWidth - window.innerWidth);
+      album.style.height = (window.innerHeight + aDist) + "px";
+      moveAlbum();
+    };
+    window.addEventListener("scroll", function () { requestAnimationFrame(moveAlbum); }, { passive: true });
+    window.addEventListener("resize", sizeAlbum);
+    window.addEventListener("load", sizeAlbum);
+    sizeAlbum();
+  }
+
+  /* ---------- Carrossel da equipe ---------- */
+  $$("[data-crew]").forEach(function (c) {
+    var t = $(".crew-track", c), cards = $$(".crew-card", t);
+    var prev = $("[data-crew-prev]", c), next = $("[data-crew-next]", c);
+    var iEl = $("[data-crew-i]", c), tEl = $("[data-crew-t]", c), bar = $("[data-crew-bar]", c);
+    var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+    tEl.textContent = pad(cards.length);
+    var step = function () { return cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : t.clientWidth; };
+    var upd = function () {
+      var max = t.scrollWidth - t.clientWidth;
+      var i = Math.min(cards.length - 1, Math.round(t.scrollLeft / step()));
+      if (t.scrollLeft >= max - 4) i = cards.length - 1;
+      iEl.textContent = pad(i + 1);
+      prev.disabled = t.scrollLeft < 4;
+      next.disabled = t.scrollLeft > max - 4;
+      var vis = Math.min(1, t.clientWidth / t.scrollWidth);
+      bar.style.width = (vis * 100) + "%";
+      bar.style.transform = "translateX(" + (max > 0 ? t.scrollLeft / max * (1 / vis - 1) * 100 : 0) + "%)";
+      cards.forEach(function (k, j) { k.classList.toggle("is-active", j === i); });
+    };
+    var alvo = null;
+    var go = function (d) {
+      var s = step(), max = t.scrollWidth - t.clientWidth;
+      var base = alvo !== null ? alvo : Math.round(t.scrollLeft / s);
+      alvo = Math.max(0, Math.min(cards.length - 1, base + d));
+      t.scrollTo({ left: Math.min(max, alvo * s), behavior: reduce ? "auto" : "smooth" });
+      clearTimeout(go.t); go.t = setTimeout(function () { alvo = null; }, 700);
+    };
+    prev.addEventListener("click", function () { go(-1); });
+    next.addEventListener("click", function () { go(1); });
+    t.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); go(1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); go(-1); }
+    });
+    t.addEventListener("scroll", function () { requestAnimationFrame(upd); }, { passive: true });
+    window.addEventListener("resize", upd);
+    upd();
+    if (fine) {
+      var down = false, moved = false, x0 = 0, s0 = 0;
+      t.addEventListener("pointerdown", function (e) {
+        if (e.pointerType !== "mouse" || e.target.closest("a, button")) return;
+        down = true; moved = false; x0 = e.clientX; s0 = t.scrollLeft; t.classList.add("dragging");
+      });
+      window.addEventListener("pointermove", function (e) {
+        if (!down) return;
+        var dx = e.clientX - x0; if (Math.abs(dx) > 4) moved = true;
+        t.scrollLeft = s0 - dx;
+      });
+      window.addEventListener("pointerup", function () {
+        if (!down) return;
+        down = false; t.classList.remove("dragging");
+        var s = step(); t.scrollTo({ left: Math.round(t.scrollLeft / s) * s, behavior: reduce ? "auto" : "smooth" });
+      });
+      t.addEventListener("click", function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
+    }
+  });
+
   /* ---------- Ano no rodapé ---------- */
   $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();

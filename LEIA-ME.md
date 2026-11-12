@@ -30,3 +30,9 @@ O script recusa textos com travessão. Ao mudar CSS ou JS, aumente `V` em `src/b
 - Formulário abre o e-mail do visitante (mailto) ou o WhatsApp com a mensagem pronta.
 - A agenda tributária saiu do site; o link atualizado fica em Links úteis (Ondatta).
 - Botão "Acessar sistema" no topo: leva ao Portal do Cliente Onvio (Thomson Reuters), `EMPRESA["sistema"]` em `src/build.py`. Use `https://onvio.com.br/clientcenter/`, nunca o link da tela de login (tem token que expira).
+
+## Sobre: história e equipe
+
+- Fotos antigas em `assets/img/historia/` (as tiradas da tela do computador foram descartadas). A faixa "Do arquivo da casa" fica presa na tela e anda para o lado com a rolagem no desktop; no celular é arrastar para o lado.
+- Carrossel "Quem cuida da sua empresa" usa `assets/img/equipe/colaborador-1..4.jpg` (retratos da pasta 03 - Fotos do Drive). Os cartões mostram princípios (Proximidade, Ética...) porque ainda não temos nome e cargo de cada pessoa; quando chegarem, trocar o `<h3>` e o `<p>` de cada `.crew-card` em `src/pages/sobre.html`.
+

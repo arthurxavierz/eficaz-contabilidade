@@ -25,7 +25,7 @@ import re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PAGES = ROOT / "src" / "pages"
 SITE = "https://escritorioeficaz.com.br"
-V = "6"  # versão dos arquivos estáticos; aumente a cada publicação de CSS ou JS
+V = "7"  # versão dos arquivos estáticos; aumente a cada publicação de CSS ou JS
 
 # ------------------------------------------------------------------
 # Dados do escritório. Altere aqui e rode o build de novo.
