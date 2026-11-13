@@ -35,5 +35,13 @@ O script recusa textos com travessão. Ao mudar CSS ou JS, aumente `V` em `src/b
 ## Sobre: história e equipe
 
 - Fotos antigas em `assets/img/historia/` (as tiradas da tela do computador foram descartadas). A faixa "Do arquivo da casa" fica presa na tela e anda para o lado com a rolagem no desktop; no celular é arrastar para o lado.
-- Carrossel "Quem cuida da sua empresa": 14 retratos, um por pessoa da pasta "03 - Fotos" do Drive (280 fotos, 14 pessoas), em `assets/img/equipe/colaborador-01..14.jpg`. Cada cartão mostra só o número e "Equipe Eficaz" até chegarem nome e cargo; trocar o `<h3>` de cada `.crew-card` em `src/pages/sobre.html`.
+- Carrossel "Quem cuida da sua empresa": 14 retratos, um por pessoa da pasta "03 - Fotos" do Drive, em `assets/img/equipe/colaborador-01..14.jpg`. Cada cartão leva uma virtude do escritório (Proximidade, Ética...), sem nome nem cargo, por decisão do cliente.
+
+## Mobile mais enxuto (2026-11-12)
+
+- Vídeos do Instagram só na home; no Sobre e em Depoimentos ficam `desk-only`.
+- Sobre no celular: "Como trabalhamos" e os mapas saem; Princípios mostram só os nomes; no lugar dos mapas entra o bloco `.units-mini` (`mob-only`) com o botão "Como chegar" para `contato.html#mapas`.
+- Depoimentos no celular: só as avaliações do Google e o convite para avaliar.
+- Serviços no celular: cada frente mostra título e resumo; a lista abre no botão "Ver o que está incluído" (criado pelo `main.js`).
+- `desk-only` esconde no celular; `mob-only` aparece só no celular.
 

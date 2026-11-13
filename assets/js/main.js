@@ -534,6 +534,22 @@
     }
   });
 
+  /* ---------- Serviços em sanfona no celular ---------- */
+  $$(".svc-block").forEach(function (b) {
+    var intro = $(".intro", b), lista = $(".svc-items", b);
+    if (!intro || !lista) return;
+    var bt = document.createElement("button");
+    bt.type = "button"; bt.className = "svc-more";
+    bt.setAttribute("aria-expanded", "false");
+    bt.innerHTML = '<span>Ver o que está incluído</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+    intro.after(bt);
+    bt.addEventListener("click", function () {
+      var aberto = b.classList.toggle("is-open");
+      bt.setAttribute("aria-expanded", aberto ? "true" : "false");
+      bt.firstChild.textContent = aberto ? "Fechar" : "Ver o que está incluído";
+    });
+  });
+
   /* ---------- Ano no rodapé ---------- */
   $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();

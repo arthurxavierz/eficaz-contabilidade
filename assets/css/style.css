@@ -1196,7 +1196,32 @@ html.intro .curtain {
 .page-hero-grid.phones .big-phone { white-space: nowrap; font-size: clamp(26px, min(4.6vw, 11cqi), 72px); }
 @media (max-width: 760px) { .page-hero-grid.phones { grid-template-columns: minmax(0, 1fr); } .page-hero-grid.phones .big-phone { font-size: clamp(26px, 13cqi, 56px); } }
 
-/* Retratos da equipe: enquanto não houver nome e cargo, só o número e a marca, discretos */
-.crew-card:not(.crew-all) .crew-info h3 { font-family: var(--sans); font-weight: 450; font-size: 15px; text-transform: none; letter-spacing: 0; margin-top: 4px; color: #d9dcea; }
+/* Retratos da equipe: 14 cartões, um pouco mais estreitos */
 .crew-track { grid-auto-columns: clamp(220px, 21vw, 310px); }
 @media (max-width: 760px) { .crew-track { grid-auto-columns: 72%; } }
+
+/* ---------- Mobile mais direto ---------- */
+.mob-only { display: none; }
+.svc-more { display: none; }
+.units-mini h2 { margin: 14px 0 22px; }
+.units-mini ul { list-style: none; margin: 0 0 26px; padding: 0; border-top: 1px solid var(--line-inv); }
+.units-mini li { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--line-inv); font-size: 17px; }
+.units-mini li b { font-weight: 450; }
+.units-mini li span { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted-inv); }
+@media (max-width: 760px) {
+  .mob-only { display: block; }
+  /* Princípios: só os nomes, em grade 2 x 2 */
+  .principles { grid-template-columns: 1fr 1fr; }
+  .principle { padding: 18px 12px 18px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+  .principle + .principle { padding-left: 0; }
+  .principle p { display: none; }
+  /* Serviços em sanfona: título e resumo, o resto abre no toque */
+  .svc-block .svc-photo { display: none; }
+  .svc-block:not(.is-open) .svc-items, .svc-block:not(.is-open) .svc-extra { display: none; }
+  .svc-block.is-open .svc-items { margin-top: 20px; }
+  .svc-block .intro { margin-bottom: 0; }
+  .svc-more { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; padding: 10px 16px; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 14px; }
+  .svc-more svg { width: 14px; height: 14px; transition: transform .3s; transform: rotate(90deg); }
+  .svc-block.is-open .svc-more svg { transform: rotate(-90deg); }
+}
+
