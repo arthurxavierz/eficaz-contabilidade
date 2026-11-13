@@ -581,10 +581,10 @@ html.intro .curtain {
 .svc-layout { display: grid; grid-template-columns: 240px 1fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
 .svc-nav { position: sticky; top: calc(var(--header-h) + 32px); }
 .svc-nav ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
-.svc-nav a { display: flex; gap: 12px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; transition: color .3s, padding .4s var(--ease); }
-.svc-nav a span { font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
-.svc-nav a.is-active { color: var(--orange); padding-left: 10px; }
-.svc-nav a.is-active span { color: var(--orange); }
+.svc-nav ol a { display: flex; gap: 12px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; transition: color .3s, padding .4s var(--ease); }
+.svc-nav ol a span { font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+.svc-nav ol a.is-active { color: var(--orange); padding-left: 10px; }
+.svc-nav ol a.is-active span { color: var(--orange); }
 .svc-block { padding-bottom: clamp(56px, 7vw, 100px); }
 .svc-block + .svc-block { border-top: 1px solid var(--line-strong); padding-top: clamp(28px, 3.4vw, 48px); }
 .svc-block header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: 22px; }
@@ -1189,3 +1189,14 @@ html.intro .curtain {
   .collage.flip .collage-print { left: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .album-item, .crew-card img { transition: none; } }
+
+/* Telefones do contato: duas colunas iguais e o número nunca quebra; o tamanho acompanha a coluna */
+.page-hero-grid.phones { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.page-hero-grid.phones > div { container-type: inline-size; min-width: 0; }
+.page-hero-grid.phones .big-phone { white-space: nowrap; font-size: clamp(26px, min(4.6vw, 11cqi), 72px); }
+@media (max-width: 760px) { .page-hero-grid.phones { grid-template-columns: minmax(0, 1fr); } .page-hero-grid.phones .big-phone { font-size: clamp(26px, 13cqi, 56px); } }
+
+/* Retratos da equipe: enquanto não houver nome e cargo, só o número e a marca, discretos */
+.crew-card:not(.crew-all) .crew-info h3 { font-family: var(--sans); font-weight: 450; font-size: 15px; text-transform: none; letter-spacing: 0; margin-top: 4px; color: #d9dcea; }
+.crew-track { grid-auto-columns: clamp(220px, 21vw, 310px); }
+@media (max-width: 760px) { .crew-track { grid-auto-columns: 72%; } }
