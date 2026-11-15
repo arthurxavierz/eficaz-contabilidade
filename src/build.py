@@ -25,7 +25,7 @@ import re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PAGES = ROOT / "src" / "pages"
 SITE = "https://escritorioeficaz.com.br"
-V = "9"  # versão dos arquivos estáticos; aumente a cada publicação de CSS ou JS
+V = "10"  # versão dos arquivos estáticos; aumente a cada publicação de CSS ou JS
 
 # ------------------------------------------------------------------
 # Dados do escritório. Altere aqui e rode o build de novo.
@@ -136,19 +136,9 @@ MARK = (
     '<rect class="m-bar" x="0" y="21.3" width="38.6" height="5.4"/>'
     "</svg>"
 )
-# Logo completo em um único SVG, com posições fixas para o alinhamento não depender da fonte
-BRAND = (
-    '<svg class="brand-logo" viewBox="0 0 192 56" aria-hidden="true">'
-    '<g transform="translate(0 4)">'
-    '<circle class="m-bg" cx="24" cy="24" r="24"/>'
-    '<path class="m-e" d="M37.2 30.2A14.2 14.2 0 1 1 38.4 24" fill="none" stroke-width="5.4"/>'
-    '<rect class="m-bar" x="0" y="21.3" width="38.6" height="5.4"/>'
-    "</g>"
-    '<text class="lg-top" x="184" y="15" text-anchor="end">Escritório</text>'
-    '<text class="lg-word" x="54" y="41" textLength="126" lengthAdjust="spacingAndGlyphs">EF<tspan class="lg-i">I</tspan>CAZ</text>'
-    '<text class="lg-sub" x="180" y="53" text-anchor="end">Contabilidade / Assessoria</text>'
-    "</svg>"
-)
+# Logo oficial (vetores do PDF enviado pelo escritório), definido uma vez por página e reaproveitado com <use>
+LOGO_SYMBOL = (ROOT / "src" / "logo-symbol.svg").read_text(encoding="utf-8")
+BRAND = '<svg class="brand-logo" viewBox="0 0 672 221" aria-hidden="true"><use href="#eficaz-logo"/></svg>'
 
 
 def enc(s):
@@ -270,7 +260,8 @@ def header(current, theme):
         f'<li><a href="{href}"{cur(key, current)}>{label}</a></li>'
         for key, label, href, _ in NAV
     )
-    return f"""<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+    return f"""{LOGO_SYMBOL}
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
 <div class="progress-bar" aria-hidden="true"></div>
 <div class="curtain" aria-hidden="true"><span class="curtain-mark">{MARK}</span></div>
 <header class="site-header" data-theme="{theme}">
