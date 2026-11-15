@@ -1,6 +1,6 @@
 @property --w { syntax: "<color>"; inherits: true; initial-value: #004181; }
 @property --s { syntax: "<color>"; inherits: true; initial-value: #231f20; }
-@property --i { syntax: "<color>"; inherits: true; initial-value: #f58220; }
+@property --lg-i { syntax: "<color>"; inherits: true; initial-value: #f58220; }
 @property --m-bg { syntax: "<color>"; inherits: true; initial-value: #004181; }
 @property --m-fg { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
 /* Escritório Eficaz · Contabilidade e Assessoria
@@ -128,7 +128,7 @@ p { margin: 0 0 1em; }
 
 .brand { display: flex; align-items: center; line-height: 1; --m-bg: var(--brand); --m-fg: var(--white); }
 .brand-mark { width: 40px; height: 40px; flex: none; }
-.brand-logo { height: 50px; width: auto; flex: none; overflow: visible; --w: var(--brand); --s: var(--ink); --i: var(--orange); transition: --w .35s, --s .35s, --m-bg .35s, --m-fg .35s, --i .35s; }
+.brand-logo { height: 50px; width: auto; flex: none; overflow: visible; --w: var(--brand); --s: var(--ink); --lg-i: var(--orange); transition: --w .35s, --s .35s, --m-bg .35s, --m-fg .35s, --lg-i .35s; }
 .dark .brand-logo, .site-footer .brand-logo, .site-header[data-theme="dark"]:not(.is-solid) .brand-logo, .menu-open .site-header .brand-logo { --w: var(--white); --s: var(--paper); }
 
 .nav { display: flex; align-items: center; gap: clamp(14px, 2vw, 28px); }
@@ -685,7 +685,7 @@ html.intro .curtain {
 /* cabeçalho sobre o hero laranja */
 [data-page="correspondente-caixa"] .site-header:not(.is-solid) .brand { --m-bg: var(--ink); --m-fg: var(--orange); }
 [data-page="correspondente-caixa"] .site-header:not(.is-solid) .brand-logo { --w: var(--ink); --s: var(--ink); }
-[data-page="correspondente-caixa"] .site-header:not(.is-solid) .brand-logo { --i: var(--white); }
+[data-page="correspondente-caixa"] .site-header:not(.is-solid) .brand-logo { --lg-i: var(--white); }
 [data-page="correspondente-caixa"] .site-header:not(.is-solid) .btn-solid { background: var(--ink); border-color: var(--ink); }
 [data-page="correspondente-caixa"] .site-header:not(.is-solid) .nav-link::after { background: var(--ink); }
 
