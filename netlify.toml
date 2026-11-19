@@ -1,0 +1,28 @@
+# Site estático: os .html da raiz já saem prontos do src/build.py.
+[build]
+  publish = "."
+  command = ""
+
+# Não servir o código-fonte nem a documentação interna.
+[[redirects]]
+  from = "/src/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/LEIA-ME.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/netlify.toml"
+  to = "/404"
+  status = 404
+  force = true
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
