@@ -35,7 +35,7 @@ O script recusa textos com travessão. Ao mudar CSS ou JS, aumente `V` em `src/b
 ## Sobre: história e equipe
 
 - Fotos antigas em `assets/img/historia/` (as tiradas da tela do computador foram descartadas). A faixa "Do arquivo da casa" fica presa na tela e anda para o lado com a rolagem no desktop; no celular é arrastar para o lado.
-- Carrossel "Quem cuida da sua empresa": 14 retratos, um por pessoa da pasta "03 - Fotos" do Drive, em `assets/img/equipe/colaborador-01..14.jpg`. Cada cartão leva uma virtude do escritório (Proximidade, Ética...), sem nome nem cargo, por decisão do cliente.
+- Carrossel "Quem cuida da sua empresa": 13 retratos, um por pessoa da pasta "03 - Fotos" do Drive, em `assets/img/equipe/colaborador-01..14.jpg` (o 08 foi retirado em 2026-11-25). Cada cartão leva uma virtude do escritório (Proximidade, Ética...), sem nome nem cargo, por decisão do cliente.
 
 ## Mobile mais enxuto (2026-11-12)
 
