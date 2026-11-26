@@ -25,7 +25,7 @@ import re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PAGES = ROOT / "src" / "pages"
 SITE = "https://escritorioeficaz.com.br"
-V = "12"  # versão dos arquivos estáticos; aumente a cada publicação de CSS ou JS
+V = "13"  # versão dos arquivos estáticos; aumente a cada publicação de CSS ou JS
 
 # ------------------------------------------------------------------
 # Dados do escritório. Altere aqui e rode o build de novo.
@@ -263,7 +263,7 @@ def header(current, theme):
     return f"""{LOGO_SYMBOL}
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
 <div class="progress-bar" aria-hidden="true"></div>
-<div class="curtain" aria-hidden="true"><svg class="curtain-logo" viewBox="0 0 672 221"><use href="#eficaz-logo"/></svg></div>
+<div class="curtain" aria-hidden="true"><div class="curtain-load"><svg class="curtain-logo ghost" viewBox="0 0 672 221"><use href="#eficaz-logo"/></svg><svg class="curtain-logo fill" viewBox="0 0 672 221"><use href="#eficaz-logo"/></svg><span class="curtain-bar"><i></i></span></div></div>
 <header class="site-header" data-theme="{theme}">
   <div class="wrap">
     <a class="brand" href="index.html" aria-label="Escritório Eficaz, página inicial">{BRAND}</a>
